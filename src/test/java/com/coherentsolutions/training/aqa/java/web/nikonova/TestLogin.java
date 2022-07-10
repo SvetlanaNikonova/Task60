@@ -8,43 +8,40 @@ import java.time.Duration;
 
 
 public class TestLogin {
+    public static WebDriver driver;
 
-    private static WebDriver driver = new ChromeDriver();
     private final String USERNAME = "SeleniumTest789";
     private final String PASSWORD = "belekoks_789!";
 
     @BeforeAll
     public static void setUp() {
 
+        driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     }
 
     @Test
     @Order(1)
-    public void testLogin()  {
-
+    public void testLogin() {
 
         driver.get("https://mail.yandex.com/");
 
         HomePage home = new HomePage(driver);
 
-
-        LoginPage login = home.clickLogin();
-
-        Dashboard dashboard = login.login(USERNAME, PASSWORD);
-
-        Assertions.assertNotEquals(dashboard.isLoaded().size(), 0);
+        LoginPage loginPage = home.clickLogin();
+        Dashboard dashboard = loginPage.login(USERNAME, PASSWORD);
+        Assertions.assertTrue(dashboard.isLoaded());
 
     }
 
     @Test
     @Order(2)
-    public void testLogOut()  {
+    public void testLogOut() {
 
         Dashboard dashboard = new Dashboard(driver);
-        LoginPage login = dashboard.clickLogout();
-        Assertions.assertEquals(login.isLoaded(), "Yandex.Mail — free, reliable email");
+        LoginPage loginPage = dashboard.clickLogout();
+        Assertions.assertEquals(loginPage.isLoaded(), "Yandex.Mail — free, reliable email");
 
     }
 

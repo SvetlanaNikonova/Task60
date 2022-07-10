@@ -1,31 +1,35 @@
 package com.coherentsolutions.training.aqa.java.web.nikonova;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.How;
+import org.openqa.selenium.support.PageFactory;
 
-import java.util.List;
 
 public class Dashboard {
 
     private WebDriver driver;
+    private static String URL = ("https://mail.yandex.com/");
+
+    @FindBy(how = How.CLASS_NAME, using = "PSHeader-User")
+    private WebElement heading;
+
+    @FindBy(how = How.XPATH, using = "//a[text()='Log out']")
+    private WebElement logoutBtn;
 
 
     public Dashboard(WebDriver driver) {
         this.driver = driver;
+        PageFactory.initElements(driver, this);
     }
 
-    private By heading = By.className("PSHeader-User");
-    private By logoutBtn = By.xpath("//a[text()='Log out']");
-
-
     public LoginPage clickLogout() {
-        driver.findElement(logoutBtn).click();
+        logoutBtn.click();
         return new LoginPage(driver);
     }
 
-    public List<WebElement> isLoaded() {
-        return driver.findElements(By.className("PSHeader-User"));
-
+    public boolean isLoaded() {
+        return heading.isDisplayed();
     }
 }
