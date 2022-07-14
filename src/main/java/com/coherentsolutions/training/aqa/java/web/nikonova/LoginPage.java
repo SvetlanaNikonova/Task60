@@ -18,12 +18,13 @@ public class LoginPage {
 
     private By loginBtn = By.id("passp:sign-in");
 
+    private static final String TITLE = "Yandex.Mail — free, reliable email";
+
     public Dashboard login(String userName, String password)  {
         enterUsername(userName);
-        clickLogin();
+        driver.findElement(loginBtn).click();
         enterPassword(password);
-        clickLogin();
-        return new Dashboard(driver);
+        return clickLogin();
     }
 
     private void enterUsername(String user) {
@@ -38,13 +39,14 @@ public class LoginPage {
 
     }
 
-    private void clickLogin() {
+    private Dashboard clickLogin() {
         driver.findElement(loginBtn).click();
+        return new Dashboard(driver);
 
     }
 
-    public String isLoaded() {
-        return driver.getTitle();
+    public boolean isLoaded() {
+        return driver.getTitle().contains(TITLE);
     }
 
 }

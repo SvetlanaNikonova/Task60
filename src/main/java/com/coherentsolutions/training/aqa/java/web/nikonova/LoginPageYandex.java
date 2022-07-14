@@ -6,13 +6,13 @@ import org.openqa.selenium.WebDriver;
 public class LoginPageYandex {
     WebDriver selenium;
     public LoginPageYandex (WebDriver selenium) {
-        this.selenium = selenium;
+
         if (!"LoginPageYandex".equalsIgnoreCase(this.selenium.getTitle())) {
         selenium.get(
                 "https://mail.yandex.com/" );
         }
     }
-    public boolean isButtonPresents(String title) {
-        return selenium.findElement(By.cssSelector(".HeadBanner-ButtonsWrapper > a:last-child")).isDisplayed();
+    public boolean isTitlePresents(String title) {
+        return title.equalsIgnoreCase(this.selenium.getTitle());
     }
 }

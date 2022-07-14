@@ -34,7 +34,7 @@ public class TestLogin {
 
         Dashboard dashboard = login.login(USERNAME, PASSWORD);
 
-        Assertions.assertNotEquals(dashboard.isLoaded().size(), 0);
+        Assertions.assertTrue(dashboard.isLoaded());
 
     }
 
@@ -44,7 +44,7 @@ public class TestLogin {
 
         Dashboard dashboard = new Dashboard(driver);
         LoginPage login = dashboard.clickLogout();
-        Assertions.assertEquals(login.isLoaded(), "Yandex.Mail — free, reliable email");
+        Assertions.assertTrue(login.isLoaded());
 
     }
 

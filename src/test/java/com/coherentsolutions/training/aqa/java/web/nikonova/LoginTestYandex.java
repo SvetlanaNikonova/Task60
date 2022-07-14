@@ -8,7 +8,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 public class LoginTestYandex {
+
     WebDriver selenium;
+    private static final String TITLE = "Authorization";
 
     @BeforeEach
     public void setUp() {
@@ -25,7 +27,7 @@ public class LoginTestYandex {
        ShouldLoadHomePageAndCheckTitle() {
         selenium.get("https://mail.yandex.com/");
         HomePageYandex hp = new HomePageYandex(selenium);
-        LoginPageYandex lp = hp.clickLoginPageYandex();
-        Assertions.assertTrue(lp.isButtonPresents("Authorization"));
+        LoginPageYandex lp = hp.loudLoginPageYandex();
+        Assertions.assertTrue(lp.isTitlePresents(TITLE));
     }
 }
