@@ -1,49 +1,58 @@
 package com.coherentsolutions.training.aqa.java.web.nikonova.allure;
 
-import com.coherentsolutions.training.aqa.java.web.nikonova.Dashboard;
-import com.coherentsolutions.training.aqa.java.web.nikonova.HomePage;
-import com.coherentsolutions.training.aqa.java.web.nikonova.LoginPage;
+import com.coherentsolutions.training.aqa.java.web.nikonova.pageObjectPattern.Dashboard;
+import com.coherentsolutions.training.aqa.java.web.nikonova.pageObjectPattern.HomePage;
+import com.coherentsolutions.training.aqa.java.web.nikonova.pageObjectPattern.LoginPage;
+import io.qameta.allure.AllureId;
+import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
+
 import org.junit.jupiter.api.*;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import java.time.Duration;
 
 
 public class TestLogin {
 
-    private static WebDriver driver = new ChromeDriver();
+    public static WebDriver driver = new ChromeDriver();
     private final String USERNAME = "SeleniumTest789";
     private final String PASSWORD = "belekoks_789!";
 
     @BeforeAll
+    @Feature("SetUp")
+    @Description("Description of the Method - Launching browser")
     public static void setUp() {
 
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.get("https://mail.yandex.com/");
     }
 
     @Test
+    @AllureId("1")
     @Order(1)
-    public void testLogin()  {
-
+    @Feature("Login")
+    @Description("Verify the ability to login")
+    public void testLogin() throws InterruptedException {
 
         driver.get("https://mail.yandex.com/");
 
         HomePage home = new HomePage(driver);
-
-
         LoginPage login = home.clickLogin();
-
+        Thread.sleep(3000);
         Dashboard dashboard = login.login(USERNAME, PASSWORD);
-
+        Thread.sleep(3000);
         Assertions.assertTrue(dashboard.isLoaded());
 
     }
 
     @Test
+    @AllureId("2")
     @Order(2)
-    public void testLogOut()  {
+    @Feature("LogOut")
+    @Description("Verify the ability to logout")
+    public void testLogOut() throws InterruptedException {
 
         Dashboard dashboard = new Dashboard(driver);
         LoginPage login = dashboard.clickLogout();
@@ -52,6 +61,8 @@ public class TestLogin {
     }
 
     @AfterAll
+    @Feature("LogOut")
+    @Description("Description of the Method - Closing Browser")
     public static void cleanUp() {
         driver.quit();
     }
