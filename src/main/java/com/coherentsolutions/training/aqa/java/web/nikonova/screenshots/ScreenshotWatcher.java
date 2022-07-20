@@ -1,4 +1,4 @@
-package com.coherentsolutions.training.aqa.java.web.nikonova.allure;
+package com.coherentsolutions.training.aqa.java.web.nikonova.screenshots;
 
 import io.qameta.allure.Allure;
 import io.qameta.allure.Attachment;

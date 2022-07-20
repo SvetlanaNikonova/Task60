@@ -1,53 +1,61 @@
 package com.coherentsolutions.training.aqa.java.web.nikonova.allure;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.How;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
 
 public class LoginPage {
 
     private WebDriver driver;
+    private static final String LOGIN_URL = "https://mail.yandex.com/";
+    private static final String TITLE = "Authorization";
 
+    @FindBy(how = How.ID, using = "passp-field-login")
+    private WebElement uName;
+
+    @FindBy(how = How.NAME, using = "passwd")
+    private WebElement pswd;
+
+
+    @FindBy(how = How.ID, using = "passp:sign-in")
+    private WebElement loginBtn;
 
     public LoginPage(WebDriver driver) {
+
         this.driver = driver;
+        PageFactory.initElements(driver, this);
     }
 
-    private By uName = By.id("passp-field-login");
-
-    private By pswd = By.id("passp-field-passwd");
-
-    private By loginBtn = By.id("passp:sign-in");
-
-    private static final String TITLE = "Yandex.Mail — free, reliable email";
-
-    public Dashboard login(String userName, String password)  {
+    public Dashboard login(String userName, String password) {
         enterUsername(userName);
-        driver.findElement(loginBtn).click();
+        clickLogin();
         enterPassword(password);
-        return clickLogin();
+        clickLogin();
+        return new Dashboard(driver);
     }
 
     private void enterUsername(String user) {
-        driver.findElement(uName).clear();
-        driver.findElement(uName).sendKeys(user);
-
+        uName.clear();
+        uName.sendKeys(user);
     }
 
     private void enterPassword(String pass) {
-        driver.findElement(pswd).clear();
-        driver.findElement(pswd).sendKeys(pass);
-
+        WebElement pswd2 = new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(pswd));
+        pswd2.clear();
+        pswd2.sendKeys(pass);
     }
 
-    private Dashboard clickLogin() {
-        driver.findElement(loginBtn).click();
-        return new Dashboard(driver);
-
+    private void clickLogin() {
+        loginBtn.click();
     }
 
     public boolean isLoaded() {
-        return driver.getTitle().contains(TITLE);
+        return new WebDriverWait(driver, 10).until(ExpectedConditions.titleContains(TITLE));
     }
-
 }
 
