@@ -1,5 +1,7 @@
 package com.coherentsolutions.training.aqa.java.web.nikonova.allure;
 
+import io.qameta.allure.Allure;
+import io.qameta.allure.Attachment;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.TestWatcher;
 import org.openqa.selenium.OutputType;
@@ -7,10 +9,11 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Optional;
+
 
 public class ScreenshotWatcher implements TestWatcher {
 
@@ -22,37 +25,34 @@ public class ScreenshotWatcher implements TestWatcher {
         this.path = path;
     }
 
-    @Override
-    public void testAborted(ExtensionContext context, Throwable throwable) {
-        // do something
-    }
-
-    @Override
-    public void testDisabled(ExtensionContext context, Optional<String> optional) {
-        // do something
-    }
 
     @Override
     public void testFailed(ExtensionContext context, Throwable throwable) {
-        // do something
         captureScreenshot(driver, context.getDisplayName());
+        screenshot();
+        Allure.addAttachment("screenshot", new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
     }
 
-    @Override
-    public void testSuccessful(ExtensionContext extensionContext) {
-        // do something
+    @Attachment(value = "Screenshot", type = "image/png")
+    public byte[] screenshot() {
+        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
 
     public void captureScreenshot(WebDriver driver, String fileName) {
         try {
             new File(path).mkdirs();
-            try ( FileOutputStream out = new FileOutputStream(path + File.separator + "screenshot-" + fileName + ".png")) {
+            try (FileOutputStream out = new FileOutputStream(path + File.separator + "screenshot" + fileName + ".png")) {
                 out.write(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES));
             }
         } catch (IOException | WebDriverException e) {
             System.out.println("screenshot failed:" + e.getMessage());
         }
     }
-
 }
+
+
+
+
+
+
 

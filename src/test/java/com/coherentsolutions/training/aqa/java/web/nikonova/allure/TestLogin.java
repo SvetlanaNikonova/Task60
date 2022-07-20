@@ -5,12 +5,14 @@ import com.coherentsolutions.training.aqa.java.web.nikonova.pageObjectPattern.Ho
 import com.coherentsolutions.training.aqa.java.web.nikonova.pageObjectPattern.LoginPage;
 
 import io.qameta.allure.AllureId;
+import io.qameta.allure.Attachment;
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
 
 import org.junit.jupiter.api.*;
 
 import org.junit.jupiter.api.extension.RegisterExtension;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -38,18 +40,18 @@ public class TestLogin {
     @AllureId("1")
     @Order(1)
     @Feature("Login")
+    @Attachment("Failed screenshot")
     @Description("Verify the ability to login")
     public void testLogin() throws InterruptedException {
 
 
         driver.get("https://mail.yandex.com/");
 
-
         HomePage home = new HomePage(driver);
         LoginPage login = home.clickLogin();
         Thread.sleep(3000);
         Dashboard dashboard = login.login(USERNAME, PASSWORD);
-        Thread.sleep(3000);
+        Thread.sleep(4000);
         Assertions.assertTrue(dashboard.isLoaded());
 
     }
@@ -58,6 +60,7 @@ public class TestLogin {
     @AllureId("2")
     @Order(2)
     @Feature("LogOut")
+    @Attachment("Failed screenshot logOut")
     @Description("Verify the ability to logout")
     public void testLogOut() throws InterruptedException {
 
