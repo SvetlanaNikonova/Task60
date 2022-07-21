@@ -2,6 +2,7 @@ package com.coherentsolutions.training.aqa.java.web.nikonova.allure;
 
 import com.coherentsolutions.training.aqa.java.web.nikonova.screenshots.ScreenshotWatcher;
 import io.qameta.allure.AllureId;
+import io.qameta.allure.Attachment;
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
 import org.junit.jupiter.api.*;
@@ -34,7 +35,8 @@ public class TestLogin {
     @Order(1)
     @Feature("Login")
     @Description("Verify the ability to login")
-    public void testLogin() throws InterruptedException {
+    public void testLogin() {
+
 
         driver.get("https://mail.yandex.com/");
 
@@ -48,8 +50,9 @@ public class TestLogin {
     @AllureId("2")
     @Order(2)
     @Feature("LogOut")
+    @Attachment("Test failed")
     @Description("Verify the ability to logout")
-    public void testLogOut() throws InterruptedException {
+    public void testLogOut()  {
 
         Dashboard dashboard = new Dashboard(driver);
         HomePage homePage = dashboard.clickLogout();
